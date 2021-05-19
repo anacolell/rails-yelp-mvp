@@ -1,23 +1,40 @@
-<h2><%= @restaurant.name %></h2>
-<h4><%= @restaurant.category.capitalize + ' cuisine'%></h4>
-<p><%= @restaurant.address %></p>
-<p><%= @restaurant.phone_number %></p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+      <h2 class="mt-3 mb-3"><%= @restaurant.name %></h2>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row">Category</th>
+            <td><%= @restaurant.category.capitalize %></td>
+          </tr>
+          <tr>
+            <th scope="row">Address</th>
+            <td><%= @restaurant.address %></td>
+          </tr>
+          <tr>
+            <th scope="row">Phone Number</th>
+            <td><%= @restaurant.phone_number %></td>
+          </tr>
+        </tbody>
+      </table>
 
+      <% @review = Review.new %>
 
-<%= link_to new_restaurant_path(@restaurant) do%>
-  <p><i class="fas fa-pencil-alt"></i> Write a review </p>
-<% end %>
-<% @review = Review.new %>
+      <%= simple_form_for [@restaurant, @review] do |f| %>
+        <%= f.input :content %>
+        <%= f.input :rating %>
+        <%= f.submit class: 'btn btn-primary mt-4 mb-4 text-white' %>
+      <% end %>
 
-<%= render 'form_review' %>
+      <h5>Reviews:</h5>
+      <div class="list-group">
+        <% @restaurant.reviews.each do |review| %>
+          <li class="list-group-item"><%= '⭐️' * review.rating %><strong><%= review.content %></strong> <br>posted on <%= review.created_at.to_date %></li>
+        <% end %>
+      </div>
 
-<h5>Reviews:</h5>
-
-<% @restaurant.reviews.each do |review| %>
-    <p><%= '⭐️' * review.rating %> <%= review.content %></p> <p>posted on <%= review.created_at.to_date %></p>
-  <hr>
-<% end %>
-
-<%= link_to restaurants_path do %>
-  <i class="fa fa-history"></i> Back to list
-<% end %>
+      <%= link_to 'Back to list', restaurants_path, class: 'btn btn-primary mt-4 mb-4 text-white'%>
+    </div>
+  </div>
+</div>
