@@ -1,0 +1,20 @@
+<h2><%= @restaurant.name %></h2>
+<h4><%= @restaurant.category.capitalize + ' cuisine'%></h4>
+<p><%= @restaurant.address %></p>
+<p><%= @restaurant.phone_number %></p>
+
+
+<%= link_to new_restaurant_review_path(@restaurant) do%>
+  <p><i class="fas fa-pencil-alt"></i> Write a review </p>
+<% end %>
+
+<h5>Reviews:</h5>
+
+<% @restaurant.reviews.each do |review| %>
+  <p><%= '⭐️' * review.rating %></p><p><%= review.content%></p>
+  <hr>
+<% end %>
+
+<%= link_to restaurants_path do %>
+  <i class="fa fa-history"></i> Back to list
+<% end %>
