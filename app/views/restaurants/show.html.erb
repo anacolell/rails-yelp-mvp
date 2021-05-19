@@ -4,14 +4,16 @@
 <p><%= @restaurant.phone_number %></p>
 
 
-<%= link_to new_restaurant_review_path(@restaurant) do%>
+<%= link_to new_restaurant_path(@restaurant) do%>
   <p><i class="fas fa-pencil-alt"></i> Write a review </p>
 <% end %>
+<% @review = Review.new %>
+<%= render 'form_review' %>
 
 <h5>Reviews:</h5>
 
 <% @restaurant.reviews.each do |review| %>
-  <p><%= '⭐️' * review.rating %></p><p><%= review.content%></p>
+    <p><%= '⭐️' * review.rating %> <%= review.content %></p> <p>posted on <%= review.created_at.to_date %></p>
   <hr>
 <% end %>
 
